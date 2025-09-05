@@ -17,7 +17,8 @@ export default defineConfig([
   {
     rules: {
       semi: ['error', 'never'],
-      quotes: ['error', 'single']
+      quotes: ['error', 'single'],
+      '@typescript-eslint/no-empty-object-type': 'off',
     },
   }
 ])
