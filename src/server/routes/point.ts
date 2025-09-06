@@ -4,6 +4,10 @@ import { userController } from '../controllers'
 
 const userRoutes = Router()
 
-userRoutes.post('/', userController.create)
+userRoutes.post(
+  '/',
+  userController.createBodyValidator,
+  userController.create
+)
 
 export { userRoutes }

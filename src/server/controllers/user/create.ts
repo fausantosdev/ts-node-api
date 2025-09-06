@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, RequestHandler, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import * as yup from 'yup'
 
@@ -8,18 +8,33 @@ type UserTypes = {
   password: string
 }
 
-async function create(
-  request: Request<{}, {}, UserTypes>,
-  response: Response
-){
+const createBodyValidator: RequestHandler = async function( request, response, next ) {
   const bodySchema: yup.Schema<UserTypes> = yup.object().shape({
-    name: yup.string().required(),
+    name: yup.string().min(3).required(),
     email: yup.string().email().required(),
     password: yup.string().min(6).required()
   })
 
   try {
-    const { name, email, password } = await bodySchema.validate(request.body, { abortEarly: false })
+    await bodySchema.validate(request.body, { abortEarly: false })
+    return next()
+  } catch (error: yup.ValidationError | unknown) {
+
+    return response.status(StatusCodes.BAD_REQUEST).json({
+      status: false,
+      data: null,
+      message: error instanceof yup.ValidationError ? error.errors : 'Validation error'
+    })
+  }
+}
+
+async function create(
+  request: Request<{}, {}, UserTypes>,
+  response: Response
+){
+
+  try {
+    const { name, email, password } = request.body
 
     return response.status(StatusCodes.CREATED).json({
       status: true,
@@ -44,4 +59,7 @@ async function create(
   }
 }
 
-export { create }
+export {
+  create,
+  createBodyValidator
+}

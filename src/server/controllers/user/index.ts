@@ -1,7 +1,8 @@
-import { create } from './create'
+import { create, createBodyValidator } from './create'
 
 const userController = {
-  create
+  create,
+  createBodyValidator
 }
 
 export { userController }
