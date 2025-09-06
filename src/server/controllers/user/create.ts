@@ -10,9 +10,9 @@ type UserTypes = {
 
 const createBodyValidator: RequestHandler = async function( request, response, next ) {
   const bodySchema: yup.Schema<UserTypes> = yup.object().shape({
-    name: yup.string().min(3).required(),
+    name: yup.string().min(3).required().label('nome'),
     email: yup.string().email().required(),
-    password: yup.string().min(6).required()
+    password: yup.string().min(6).required().label('senha')
   })
 
   try {
