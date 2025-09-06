@@ -1,4 +1,5 @@
 import express from 'express'
+import './../shared/services/yup-translations'
 
 import { routes } from './routes'
 
