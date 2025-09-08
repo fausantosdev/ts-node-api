@@ -19,6 +19,7 @@ export default defineConfig([
       semi: ['error', 'never'],
       quotes: ['error', 'single'],
       '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   }
 ])

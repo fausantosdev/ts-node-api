@@ -1,6 +1,8 @@
-import { Request, RequestHandler, Response } from 'express'
+import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import * as yup from 'yup'
+
+import { validation } from '../../middleware'
 
 type UserTypes = {
   name: string
@@ -8,31 +10,22 @@ type UserTypes = {
   password: string
 }
 
-const createBodyValidator: RequestHandler = async function( request, response, next ) {
-  const bodySchema: yup.Schema<UserTypes> = yup.object().shape({
-    name: yup.string().min(3).required().label('nome'),
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required().label('senha')
-  })
-
-  try {
-    await bodySchema.validate(request.body, { abortEarly: false })
-    return next()
-  } catch (error: yup.ValidationError | unknown) {
-
-    return response.status(StatusCodes.BAD_REQUEST).json({
-      status: false,
-      data: null,
-      message: error instanceof yup.ValidationError ? error.errors : 'Validation error'
-    })
-  }
-}
+const createUserValidation = validation((getSchema) => ({
+  body: getSchema<UserTypes>(
+      yup
+        .object()
+        .shape({
+          name: yup.string().min(3).required().label('nome'),
+          email: yup.string().email().required(),
+          password: yup.string().min(6).required().label('senha')
+        })
+  )
+}))
 
 async function create(
   request: Request<{}, {}, UserTypes>,
   response: Response
 ){
-
   try {
     const { name, email, password } = request.body
 
@@ -61,5 +54,5 @@ async function create(
 
 export {
   create,
-  createBodyValidator
+  createUserValidation
 }

@@ -6,7 +6,7 @@ const userRoutes = Router()
 
 userRoutes.post(
   '/',
-  userController.createBodyValidator,
+  userController.createUserValidation,
   userController.create
 )
 
