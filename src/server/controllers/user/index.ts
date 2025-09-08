@@ -1,8 +1,11 @@
 import { create, createUserValidation } from './create'
+import { getAll, getAllQueryValidation } from './getAll'
 
 const userController = {
   create,
-  createUserValidation
+  createUserValidation,
+  getAll,
+  getAllQueryValidation
 }
 
 export { userController }

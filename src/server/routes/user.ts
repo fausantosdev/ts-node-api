@@ -10,4 +10,10 @@ userRoutes.post(
   userController.create
 )
 
+userRoutes.get(
+  '/',
+  userController.queryValidation,
+  userController.getAll
+)
+
 export { userRoutes }
