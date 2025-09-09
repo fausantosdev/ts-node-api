@@ -12,7 +12,7 @@ userRoutes.post(
 
 userRoutes.get(
   '/',
-  userController.queryValidation,
+  userController.getAllQueryValidation,
   userController.getAll
 )
 
