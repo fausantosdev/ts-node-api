@@ -40,7 +40,7 @@ const validation: ValidationTypes = (getAllSchemas) =>
         .send({
           status: false,
           data: null,
-          message: errorsResult
+          errors: errorsResult
         })
     }
   }
