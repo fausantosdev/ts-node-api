@@ -16,4 +16,22 @@ userRoutes.get(
   userController.getAll
 )
 
+userRoutes.get(
+  '/:id',
+  userController.getByIdParamsValidation,
+  userController.getById
+)
+
+userRoutes.put(
+  '/:id',
+  userController.updateValidation,
+  userController.update
+)
+
+userRoutes.delete(
+  '/:id',
+  userController.deleteByIdValidation,
+  userController.deleteById
+)
+
 export { userRoutes }
