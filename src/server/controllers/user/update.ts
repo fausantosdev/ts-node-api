@@ -53,18 +53,10 @@ async function update(
     })
 
   } catch (error: any) {
-    if (error instanceof yup.ValidationError) {
-      return response.status(StatusCodes.BAD_REQUEST).json({
-        status: false,
-        data: null,
-        message: error.errors
-      })
-    }
-
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: false,
       data: null,
-      message: error.message
+      message: 'Internal server error'
     })
   }
 }

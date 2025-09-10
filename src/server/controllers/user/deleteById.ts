@@ -35,15 +35,7 @@ async function deleteById(
       message: 'Ok'
     })
 
-  } catch (error) {
-    if (error instanceof yup.ValidationError) {
-      return response.status(StatusCodes.BAD_REQUEST).json({
-        status: false,
-        data: null,
-        message: error.errors
-      })
-    }
-
+  } catch (error: any) {
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: false,
       data: null,

@@ -32,18 +32,10 @@ async function create(
     return response.status(StatusCodes.CREATED).json({
       status: true,
       data: { name, email, password },
-      message: 'Ok'
+      errors: null
     })
 
-  } catch (error) {
-    if (error instanceof yup.ValidationError) {
-      return response.status(StatusCodes.BAD_REQUEST).json({
-        status: false,
-        data: null,
-        message: error.errors
-      })
-    }
-
+  } catch (error: any) {
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: false,
       data: null,
