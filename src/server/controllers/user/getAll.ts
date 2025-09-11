@@ -30,7 +30,7 @@ async function getAll(
   try {
     const { page, limit, filter } = request.query
 
-    return response.status(StatusCodes.CREATED).json({
+    return response.status(StatusCodes.OK).json({
       status: true,
       data: { page, limit, filter },
       message: 'Ok'
