@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import * as yup from 'yup'
 
 import { validation } from '../../middleware'
+import { responseHelper } from '../../../shared/helpers/response-helper'
 
 type ParamsTypes = {
   id?: number
@@ -53,11 +54,13 @@ async function update(
     })
 
   } catch (error: any) {
-    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: false,
-      data: null,
-      message: 'Internal server error'
-    })
+    return response
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(responseHelper({
+        status: false,
+        data: null,
+        errors: error.message || 'Internal server error'
+      }))
   }
 }
 

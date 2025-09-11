@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import { Schema, ValidationError } from 'yup'
 import { StatusCodes } from 'http-status-codes'
+import { responseHelper } from '../../shared/helpers/response-helper'
 
 type PropertyTypes = 'body' | 'header' | 'params' | 'query'
 type GetSchemaTypes = <T>(schema: Schema<T>) => Schema<T>
@@ -37,11 +38,10 @@ const validation: ValidationTypes = (getAllSchemas) =>
     } else {
       return response
         .status(StatusCodes.BAD_REQUEST)
-        .send({
+        .send(responseHelper({
           status: false,
-          data: null,
           errors: errorsResult
-        })
+        }))
     }
   }
 
