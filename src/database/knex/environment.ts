@@ -1,11 +1,14 @@
 import * as path from 'path'
 import { Knex } from 'knex'
-import 'dotenv/config'
+
+import { env } from '../../env'
 
 export const development: Knex.Config = {
-  client: 'pg',
-  useNullAsDefault: true,
-  connection: process.env.PG_CONNECTION_STRING!,
+  client: env.DB_CLIENT,
+  connection:  {
+    connectionString: env.DATABASE_URL,
+  },
+  debug: env.NODE_ENV === 'development',
   migrations: {
     directory: path.resolve(__dirname, 'migrations')
   },
@@ -15,8 +18,7 @@ export const development: Knex.Config = {
 }
 
 export const test: Knex.Config = {
-  ...development,
-  connection: ':memory:'
+  ...development
 }
 
 export const production: Knex.Config = {
