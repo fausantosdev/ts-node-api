@@ -1,10 +1,10 @@
-type ResponseHelper = {
+export type ResponseHelper = {
   status?: boolean
   data?: any
   errors: string | Array<string> | object
 }
 
-function responseHelper({
+export function responseHelper({
   status = true,
   data = null,
   errors = '',
@@ -15,5 +15,3 @@ function responseHelper({
     errors,
   }
 }
-
-export { responseHelper, ResponseHelper }
