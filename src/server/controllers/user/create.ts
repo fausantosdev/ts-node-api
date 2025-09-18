@@ -4,6 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
+import { userProvider } from '../../../database/providers/users'
 
 type UserTypes = {
   name: string
@@ -27,15 +28,26 @@ async function create(
   request: Request<{}, {}, UserTypes>,
   response: Response
 ){
+  const result = await userProvider.create(request.body)
+
   try {
-    const { name, email, password } = request.body
+    if (result instanceof Error) {
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(responseHelper({
+          status: false,
+          data: null,
+          errors: result.message
+        }))
+    }
 
-    return response.status(StatusCodes.CREATED).json({
-      status: true,
-      data: { name, email, password },
-      errors: null
-    })
-
+    return response
+      .status(StatusCodes.CREATED)
+      .json({
+        status: true,
+        data: result,
+        errors: null
+      })
   } catch (error: any) {
     return response
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
