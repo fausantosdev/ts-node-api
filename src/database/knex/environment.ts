@@ -8,7 +8,8 @@ export const development: Knex.Config = {
   connection:  {
     connectionString: env.DATABASE_URL,
   },
-  debug: env.NODE_ENV === 'development',
+  searchPath: ['test'],
+  debug: true,
   migrations: {
     directory: path.resolve(__dirname, 'migrations')
   },
