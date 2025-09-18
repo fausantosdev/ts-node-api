@@ -1,5 +1,16 @@
 import { StatusCodes } from 'http-status-codes'
 import { testServer } from '../jest.setup'
+import { connection } from '../../src/database/knex/connection'
+
+beforeAll(async () =>{
+  await connection.migrate.up()
+})
+
+afterAll(async () =>{
+  await connection.migrate.down()
+  await connection.destroy()
+})
+
 
 describe('Users - create', () => {
   it('Should return 401 if no email is provided', async () => {
