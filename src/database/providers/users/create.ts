@@ -1,16 +1,5 @@
 import { connection } from '../../knex/connection'
-import { IUser } from '../../knex/models'
-
-interface CreateUserDTO extends Omit<IUser,
-  'id' |
-  'password_hash' |
-  'role' |
-  'password_reset_token' |
-  'password_reset_expires' |
-  'created_at'|
-  'updated_at'>{
-  password: string
-}
+import { CreateUserDTO } from '../../../dtos/create-user-dto'
 
 const create = async ({ name, email, password }: CreateUserDTO): Promise<number | Error> => {
   try {

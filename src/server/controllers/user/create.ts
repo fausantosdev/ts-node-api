@@ -5,15 +5,10 @@ import * as yup from 'yup'
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
 import { userProvider } from '../../../database/providers/users'
-
-type UserTypes = {
-  name: string
-  email: string
-  password: string
-}
+import { CreateUserDTO } from '../../../dtos/create-user-dto'
 
 const createUserValidation = validation((getSchema) => ({
-  body: getSchema<UserTypes>(
+  body: getSchema<CreateUserDTO>(
       yup
         .object()
         .shape({
@@ -25,7 +20,7 @@ const createUserValidation = validation((getSchema) => ({
 }))
 
 async function create(
-  request: Request<{}, {}, UserTypes>,
+  request: Request<{}, {}, CreateUserDTO>,
   response: Response
 ){
   const result = await userProvider.create(request.body)
