@@ -4,6 +4,8 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
+import { userProvider } from '../../../database/providers'
+import { UpdateUserDTO } from '../../../dtos/update-user-dto'
 
 type ParamsTypes = {
   id?: number
@@ -45,11 +47,25 @@ async function update(
 ){
   try {
     const { id } = request.params
-    const { name, email, password } = request.body
+
+    const result = await userProvider.update({
+      data: request.body as UpdateUserDTO,
+      where: { id: id! }
+    })
+
+    if (result instanceof Error) {
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(responseHelper({
+          status: false,
+          data: null,
+          errors: result.message
+        }))
+    }
 
     return response.status(StatusCodes.OK).json({
       status: true,
-      data: { id, name, email, password },
+      data: result,
       message: 'Ok'
     })
 

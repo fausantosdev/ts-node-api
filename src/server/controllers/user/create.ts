@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers/users'
+import { userProvider } from '../../../database/providers'
 import { CreateUserDTO } from '../../../dtos/create-user-dto'
 
 const createUserValidation = validation((getSchema) => ({

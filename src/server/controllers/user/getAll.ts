@@ -4,6 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
+import { userProvider } from '../../../database/providers'
 
 type QueryTypes = {
   page?: number | undefined
@@ -28,11 +29,23 @@ async function getAll(
   response: Response
 ){
   try {
-    const { page, limit, filter } = request.query
+    const { page = 1, limit = 20 } = request.query
+
+    const result = await userProvider.read({ page, limit })
+
+    if (result instanceof Error) {
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(responseHelper({
+          status: false,
+          data: null,
+          errors: result.message
+        }))
+    }
 
     return response.status(StatusCodes.OK).json({
       status: true,
-      data: { page, limit, filter },
+      data: result,
       message: 'Ok'
     })
 

@@ -4,6 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
+import { userProvider } from '../../../database/providers'
 
 type ParamsTypes = {
   id?: number
@@ -30,9 +31,21 @@ async function deleteById(
   try {
     const { id } = request.params
 
+    const result = await userProvider.remove({ id: id! })
+
+    if (result instanceof Error) {
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json(responseHelper({
+          status: false,
+          data: null,
+          errors: result.message
+        }))
+    }
+
     return response.status(StatusCodes.OK).json({
       status: true,
-      data: { id },
+      data: result,
       message: 'Ok'
     })
 
