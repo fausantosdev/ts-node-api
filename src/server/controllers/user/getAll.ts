@@ -28,23 +28,12 @@ async function getAll(
   request: Request<{}, {}, {}, QueryTypes>,
   response: Response
 ){
-  try {
-    const { page = 1, limit = 20 } = request.query
+  const { page = 1, limit = 20 } = request.query
 
+  try {
     const result = await userProvider.read({ page, limit })
 
-    if (result instanceof Error) {
-      return response
-        .status(StatusCodes.BAD_REQUEST)
-        .json(responseHelper({
-          status: false,
-          data: null,
-          errors: result.message
-        }))
-    }
-
     return response.status(StatusCodes.OK).json({
-      status: true,
       data: result,
       message: 'Ok'
     })

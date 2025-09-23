@@ -23,23 +23,12 @@ async function create(
   request: Request<{}, {}, CreateUserDTO>,
   response: Response
 ){
-  const result = await userProvider.create(request.body)
-
   try {
-    if (result instanceof Error) {
-      return response
-        .status(StatusCodes.BAD_REQUEST)
-        .json(responseHelper({
-          status: false,
-          data: null,
-          errors: result.message
-        }))
-    }
+    const result = await userProvider.create(request.body)
 
     return response
       .status(StatusCodes.CREATED)
       .json({
-        status: true,
         data: result,
         errors: null
       })

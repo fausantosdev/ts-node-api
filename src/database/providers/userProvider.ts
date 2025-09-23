@@ -15,13 +15,13 @@ const create = async ({ name, email, password }: CreateUserDTO): Promise<number 
 
 
     if (!result){
-      return new Error('Erro ao criar usuário')
+      throw new Error('Erro ao criar usuário')
     }
 
     return result.id
 
   } catch (error: any) {
-    return new Error(error)
+    throw new Error(error)
   }
 }
 
@@ -31,34 +31,30 @@ const read = async ({
 }:{
   page?: number
   limit?: number
-}): Promise<IUser[] | Error> => {
+}): Promise<IUser[]> => {
   try {
     const result = await connection('users')
       .select('*')
       .offset((page - 1) * limit)
       .limit(limit)
 
-    if (result) return result
-
-    return new Error('Erro na busca de usuários')
+    return result
 
   } catch (error: any) {
-    return new Error(error)
+    throw new Error(error)
   }
 }
 
-const getById = async (id: number): Promise<IUser | Error> => {
+const getById = async (id: number): Promise<IUser | undefined> => {
   try {
     const result = await connection('users')
       .select('*')
       .where('id', '=', id)
 
-    if (result[0]) return result[0]
-
-    return new Error('Usuário não encontrado')
+    return result[0]
 
   } catch (error: any) {
-    return new Error(error)
+    throw new Error(error)
   }
 }
 
@@ -68,7 +64,7 @@ const update = async ({
 }:{
   data: UpdateUserDTO
   where: Partial<IUser>
-}): Promise<number | Error> => {
+}): Promise<number> => {
   try {
     const updateData: any = { ...data }
 
@@ -81,27 +77,23 @@ const update = async ({
       .update(updateData)
       .where(where)
 
-    if (result) return result
-
-    return new Error('Erro ao atualizar usuário')
+    return result
 
   } catch (error: any) {
-    return new Error(error)
+    throw new Error(error)
   }
 }
 
-const remove = async (where: Partial<IUser>): Promise<number | Error> => {
+const remove = async (where: Partial<IUser>): Promise<number> => {
   try {
     const result = await connection('users')
       .where(where)
       .del()
 
-    if (result > 0) return result
-
-    return new Error('Erro ao remover o usuário')
+    return result
 
   } catch (error: any) {
-    return new Error(error)
+    throw new Error(error)
   }
 }
 

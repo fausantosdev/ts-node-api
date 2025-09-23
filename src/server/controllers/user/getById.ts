@@ -28,20 +28,10 @@ async function getById(
   request: Request<ParamsTypes, {}, {}, {}>,
   response: Response
 ){
+  const { id } = request.params
+
   try {
-    const { id } = request.params
-
     const result = await userProvider.getById(id!)
-
-    if (result instanceof Error) {
-      return response
-        .status(StatusCodes.BAD_REQUEST)
-        .json(responseHelper({
-          status: false,
-          data: null,
-          errors: result.message
-        }))
-    }
 
     return response.status(StatusCodes.OK).json({
       status: true,

@@ -45,23 +45,13 @@ async function update(
   request: Request<ParamsTypes, {}, BodyTypes, {}>,
   response: Response
 ){
-  try {
-    const { id } = request.params
+  const { id } = request.params
 
+  try {
     const result = await userProvider.update({
       data: request.body as UpdateUserDTO,
       where: { id: id! }
     })
-
-    if (result instanceof Error) {
-      return response
-        .status(StatusCodes.BAD_REQUEST)
-        .json(responseHelper({
-          status: false,
-          data: null,
-          errors: result.message
-        }))
-    }
 
     return response.status(StatusCodes.OK).json({
       status: true,
