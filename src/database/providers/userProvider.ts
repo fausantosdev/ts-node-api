@@ -2,6 +2,7 @@ import { connection } from '../knex/connection'
 import { CreateUserDTO } from '../../dtos/create-user-dto'
 import { IUser } from '../knex/models'
 import { UpdateUserDTO } from '../../dtos/update-user-dto'
+import { DatabaseError } from '../../shared/utils/errors/database-error'
 
 const create = async ({ name, email, password }: CreateUserDTO): Promise<number | Error> => {
   try {
@@ -15,13 +16,13 @@ const create = async ({ name, email, password }: CreateUserDTO): Promise<number 
 
 
     if (!result){
-      throw new Error('Erro ao criar usuário')
+      throw new DatabaseError('Erro ao criar usuário')
     }
 
     return result.id
 
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
