@@ -34,7 +34,7 @@ async function create(
       })
   } catch (error: any) {
     return response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
         data: null,
