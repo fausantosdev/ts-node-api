@@ -13,6 +13,7 @@
     "knex:latest": "knex --knexfile ./src/database/knex/environment.ts migrate:latest",
     "knex:rollback": "knex --knexfile ./src/database/knex/environment.ts migrate:rollback",
     "knex:rollback-all": "knex --knexfile ./src/database/knex/environment.ts migrate:rollback --all",
+    "knex:seed-generate": "knex --knexfile ./src/database/knex/environment.ts seed:make",
     "knex:seed": "knex --knexfile ./src/database/knex/environment.ts seed:run",
     "test": "jest"
   },
