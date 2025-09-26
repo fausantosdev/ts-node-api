@@ -8,7 +8,7 @@ export const development: Knex.Config = {
   connection:  {
     connectionString: env.DATABASE_URL,
   },
-  searchPath: ['test'],
+  searchPath: ['development'],
   debug: true,
   migrations: {
     directory: path.resolve(__dirname, 'migrations')
@@ -19,7 +19,8 @@ export const development: Knex.Config = {
 }
 
 export const test: Knex.Config = {
-  ...development
+  ...development,
+  searchPath: ['test']
 }
 
 export const production: Knex.Config = {
