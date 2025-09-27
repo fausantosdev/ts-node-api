@@ -27,15 +27,18 @@ const create = async ({ name, email, password }: CreateUserDTO): Promise<number 
 }
 
 const read = async ({
+  where = {},
   page = 1,
   limit = 20
 }:{
+  where?: Partial<IUser>
   page?: number
   limit?: number
 }): Promise<IUser[]> => {
   try {
     const result = await connection('users')
       .select('*')
+      .where(where)
       .offset((page - 1) * limit)
       .limit(limit)
 
