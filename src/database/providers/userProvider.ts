@@ -45,7 +45,7 @@ const read = async ({
     return result
 
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
@@ -58,7 +58,7 @@ const getById = async (id: number): Promise<IUser | undefined> => {
     return result[0]
 
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
@@ -71,7 +71,7 @@ const getByEmail = async (email: string): Promise<IUser | undefined> => {
     return result[0]
 
   } catch (error: any) {
-    throw new Error(error)
+   throw new DatabaseError(error)
   }
 }
 
@@ -97,7 +97,7 @@ const update = async ({
     return result
 
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
@@ -110,7 +110,7 @@ const remove = async (where: Partial<IUser>): Promise<number> => {
     return result
 
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
@@ -125,7 +125,7 @@ const count = async (): Promise<number> => {
 
     return 0 // Default return if count is not an integer
   } catch (error: any) {
-    throw new Error(error)
+    throw new DatabaseError(error)
   }
 }
 
