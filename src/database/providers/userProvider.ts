@@ -62,6 +62,19 @@ const getById = async (id: number): Promise<IUser | undefined> => {
   }
 }
 
+const getByEmail = async (email: string): Promise<IUser | undefined> => {
+  try {
+    const result = await connection('users')
+      .select('*')
+      .where('email', '=', email)
+
+    return result[0]
+
+  } catch (error: any) {
+    throw new Error(error)
+  }
+}
+
 const update = async ({
   data,
   where
@@ -120,6 +133,7 @@ export const userProvider = {
   create,
   read,
   getById,
+  getByEmail,
   update,
   remove,
   count
