@@ -33,11 +33,11 @@ async function deleteById(
   try {
     const result = await userProvider.remove({ id: id! })
 
-    return response.status(StatusCodes.OK).json({
-      status: true,
-      data: result,
-      message: 'Ok'
-    })
+    return response
+      .status(StatusCodes.OK)
+      .json(responseHelper({
+        data: result
+      }))
 
   } catch (error: any) {
     return response

@@ -28,10 +28,9 @@ async function create(
 
     return response
       .status(StatusCodes.CREATED)
-      .json({
-        data: result,
-        errors: null
-      })
+      .json(responseHelper({
+        data: result
+      }))
   } catch (error: any) {
     return response
       .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)

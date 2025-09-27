@@ -31,12 +31,16 @@ async function getAll(
   const { page = 1, limit = 20 } = request.query
 
   try {
-    const result = await userProvider.read({ page, limit })
-
-    return response.status(StatusCodes.OK).json({
-      data: result,
-      message: 'Ok'
+    const result = await userProvider.read({
+      page,
+      limit
     })
+
+    return response
+      .status(StatusCodes.OK)
+      .json(responseHelper({
+        data: result
+      }))
 
   } catch (error: any) {
     return response
