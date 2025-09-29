@@ -62,6 +62,31 @@ const getById = async (id: number): Promise<IUser | undefined> => {
   }
 }
 
+const getByName = async (
+  {
+    name,
+    pagination = {
+      page: 1,
+      limit: 20
+    }
+  }:{
+    name: string,
+    pagination?: {
+      page?: number
+      limit?: number
+    }
+  }): Promise<IUser[] | undefined> => {
+  try {
+    const result = await connection('users')
+      .select('*')
+      .where('name', 'like', `%${name}%`)
+      .offset((pagination.page! - 1) * pagination.limit!)
+    return result
+  } catch (error: any) {
+    throw new DatabaseError(error)
+  }
+}
+
 const getByEmail = async (email: string): Promise<IUser | undefined> => {
   try {
     const result = await connection('users')
@@ -133,6 +158,7 @@ export const userProvider = {
   create,
   read,
   getById,
+  getByName,
   getByEmail,
   update,
   remove,
