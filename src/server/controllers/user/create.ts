@@ -4,8 +4,8 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers'
 import { CreateUserDTO } from '../../../dtos/create-user-dto'
+import { createUser } from '../../../use-cases'
 
 const createUserValidation = validation((getSchema) => ({
   body: getSchema<CreateUserDTO>(
@@ -24,7 +24,7 @@ async function create(
   response: Response
 ){
   try {
-    const result = await userProvider.create(request.body)
+    const result = await createUser(request.body)
 
     return response
       .status(StatusCodes.CREATED)

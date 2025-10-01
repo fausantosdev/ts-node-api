@@ -4,8 +4,8 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers'
 import { UpdateUserDTO } from '../../../dtos/update-user-dto'
+import { updateUser } from '../../../use-cases'
 
 type ParamsTypes = {
   id?: number
@@ -48,10 +48,7 @@ async function update(
   const { id } = request.params
 
   try {
-    const result = await userProvider.update({
-      data: request.body as UpdateUserDTO,
-      where: { id: id! }
-    })
+    const result = await updateUser({ id: id!, data: request.body as UpdateUserDTO })
 
     return response
       .status(StatusCodes.OK)
@@ -61,7 +58,7 @@ async function update(
 
   } catch (error: any) {
     return response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
         data: null,

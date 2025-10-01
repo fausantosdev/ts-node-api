@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers'
+import { deleteUser } from '../../../use-cases/user'
 
 type ParamsTypes = {
   id?: number
@@ -31,7 +31,7 @@ async function deleteById(
   const { id } = request.params
 
   try {
-    const result = await userProvider.remove({ id: id! })
+    const result = await deleteUser(id!)
 
     return response
       .status(StatusCodes.OK)
@@ -41,7 +41,7 @@ async function deleteById(
 
   } catch (error: any) {
     return response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
         data: null,

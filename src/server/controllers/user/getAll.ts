@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers'
+import { getUsers } from '../../../use-cases'
 
 type QueryTypes = {
   page?: number | undefined
@@ -28,13 +28,10 @@ async function getAll(
   request: Request<{}, {}, {}, QueryTypes>,
   response: Response
 ){
-  const { page = 1, limit = 20 } = request.query
+  const { page , limit } = request.query
 
   try {
-    const result = await userProvider.read({
-      page,
-      limit
-    })
+    const result = await getUsers({ pagination: { page, limit } })
 
     return response
       .status(StatusCodes.OK)
@@ -44,7 +41,7 @@ async function getAll(
 
   } catch (error: any) {
     return response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
         data: null,

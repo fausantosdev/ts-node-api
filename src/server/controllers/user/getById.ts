@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { userProvider } from '../../../database/providers'
+import { getUsers } from '../../../use-cases'
 
 type ParamsTypes = {
   id?: number
@@ -31,18 +31,17 @@ async function getById(
   const { id } = request.params
 
   try {
-    const result = await userProvider.getById(id!)
+    const result = await getUsers({ filters: { id: id! } })
 
     return response
       .status(StatusCodes.OK)
       .json(responseHelper({
-
         data: result
       }))
 
   } catch (error: any) {
     return response
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
         data: null,
