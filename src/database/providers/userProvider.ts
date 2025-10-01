@@ -32,8 +32,8 @@ const read = async ({
   limit = 20
 }:{
   where?: Partial<IUser>
-  page?: number
-  limit?: number
+  page?: number | undefined
+  limit?: number | undefined
 }): Promise<IUser[]> => {
   try {
     const result = await connection('users')
@@ -72,10 +72,11 @@ const getByName = async (
   }:{
     name: string,
     pagination?: {
-      page?: number
-      limit?: number
+      page?: number | undefined
+      limit?: number | undefined
     }
   }): Promise<IUser[] | undefined> => {
+    console.log({ pagination })
   try {
     const result = await connection('users')
       .select('*')
