@@ -1,6 +1,7 @@
 import { userProvider } from '../../database/providers'
 import { CreateUserDTO } from '../../dtos/create-user-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
+import { encrypt } from '../../shared/services/encrypt'
 
 const createUser = async ({ name, email, password }: CreateUserDTO): Promise<number | Error> => {
   try {
@@ -13,7 +14,7 @@ const createUser = async ({ name, email, password }: CreateUserDTO): Promise<num
     const newUserId = await userProvider.create({
       name,
       email,
-      password
+      password: encrypt.hash(password)
     })
 
     return newUserId
