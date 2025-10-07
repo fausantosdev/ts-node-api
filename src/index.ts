@@ -1,7 +1,7 @@
 import { connection } from './database/knex/connection'
 import { env } from './env'
 
-import { server } from './server/server'
+import { server } from './http/server'
 
 const startServer = () => {
   server.listen(env.PORT, () => {
