@@ -14,7 +14,7 @@ const createUser = async ({ name, email, password }: CreateUserDTO): Promise<num
     const newUserId = await userProvider.create({
       name,
       email,
-      password: encrypt.hash(password)
+      password: await encrypt.hash(password)
     })
 
     return newUserId
