@@ -7,6 +7,8 @@ dotenv.config({ path: resolve(__dirname, '..', '.env') })
 const envSchema = yup.object({
   APP_KEY: yup.string().required(),
   PORT: yup.number().default(4004),
+  JWT_EXPIRATION: yup.mixed<number | string>().default('1d'),
+  JWT_ALGORITHM: yup.string().default('HS256'),
   DB_CLIENT: yup.string().required(),
   DATABASE_URL: yup.string().required(),
   NODE_ENV: yup
