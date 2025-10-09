@@ -20,6 +20,7 @@ export const development: Knex.Config = {
 
 export const test: Knex.Config = {
   ...development,
+  debug: false,
   searchPath: ['test']
 }
 
