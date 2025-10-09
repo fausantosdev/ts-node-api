@@ -9,7 +9,6 @@
     // See also https://aka.ms/tsconfig/module
     "module": "commonjs",
     "target": "es2024",
-    "types": [],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -41,6 +40,10 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "typeRoots": [
+      "./src/@types", // Inclui o diretório onde o seu .d.ts está
+      "./node_modules/@types"
+    ],
   },
   "include": ["src/**/*.ts"],
   "exclude": [
