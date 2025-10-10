@@ -13,8 +13,8 @@ const jwt = {
 
     return token
   },
-  decoded: (token: string, secret: string): string | jsonWebToken.JwtPayload => {
-    const decoded = jsonWebToken.verify(token, secret)
+  decoded: (token: string): string | jsonWebToken.JwtPayload => {
+    const decoded = jsonWebToken.verify(token, env.APP_KEY)
 
     return decoded
   }
