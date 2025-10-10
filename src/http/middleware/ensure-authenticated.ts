@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
 import { responseHelper } from '../../shared/helpers/response-helper'
+import { jwt } from '../../shared/services/jwt'
 
 const ensureAuthenticated: RequestHandler = (request, response, next) => {
   const { authorization } = request.headers
@@ -24,14 +25,11 @@ const ensureAuthenticated: RequestHandler = (request, response, next) => {
       }))
   }
 
-  if (token !== 'teste.teste.teste') {
-    return response
-      .status(401)
-      .json(responseHelper({
-        status: false,
-        errors: ['Não autorizado [3]']
-      }))
-  }
+  const decoded = jwt.decoded(token!)
+
+  const { id, email, role } = decoded as { id: string, email: string, role: string }
+
+  request.user = { id, email, role }
 
   return next()
 }
