@@ -1,4 +1,4 @@
-import { userProvider } from '../../database/providers'
+import { userRepository } from '../../database/repositories'
 import { SignInDTO } from '../../dtos/sign-in-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
@@ -6,7 +6,7 @@ import { jwt } from '../../shared/services/jwt'
 
 const signIn = async ({ email, password }: SignInDTO): Promise<string | Error> => {
   try {
-    const userExists = await userProvider.getByEmail(email)
+    const userExists = await userRepository.getByEmail(email)
 
     if(!userExists){
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)

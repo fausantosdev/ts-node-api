@@ -155,7 +155,7 @@ const count = async (): Promise<number> => {
   }
 }
 
-export const userProvider = {
+export const userRepository = {
   create,
   read,
   getById,

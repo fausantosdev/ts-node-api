@@ -1,17 +1,17 @@
-import { userProvider } from '../../database/providers'
+import { userRepository } from '../../database/repositories'
 import { CreateUserDTO } from '../../dtos/create-user-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
 const createUser = async ({ name, email, password }: CreateUserDTO): Promise<number | Error> => {
   try {
-    const emailAlreadyExists = await userProvider.getByEmail(email)
+    const emailAlreadyExists = await userRepository.getByEmail(email)
 
     if(emailAlreadyExists){
       throw new AppError('Email já cadastrado', 409)
     }
 
-    const newUserId = await userProvider.create({
+    const newUserId = await userRepository.create({
       name,
       email,
       password: await encrypt.hash(password)

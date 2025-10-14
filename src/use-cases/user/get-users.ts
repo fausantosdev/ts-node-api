@@ -1,5 +1,5 @@
 import { IUser } from '../../database/knex/models'
-import { userProvider } from '../../database/providers'
+import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 
 type FiltersTypes = {
@@ -23,7 +23,7 @@ const getUsers = async (queryParams?: GetUserTypes): Promise<IUser | IUser[] | E
     let result
 
     if (queryParams?.filters?.id) {
-      result = await userProvider.getById(queryParams.filters.id)
+      result = await userRepository.getById(queryParams.filters.id)
       if (!result) {
         throw new AppError('Usuário não encontrado', 404)
       }
@@ -31,7 +31,7 @@ const getUsers = async (queryParams?: GetUserTypes): Promise<IUser | IUser[] | E
     }
 
     if (queryParams?.filters?.name) {
-      result = await userProvider.getByName({
+      result = await userRepository.getByName({
         name: queryParams.filters.name,
         pagination: {
           limit: queryParams.pagination?.limit,
@@ -45,7 +45,7 @@ const getUsers = async (queryParams?: GetUserTypes): Promise<IUser | IUser[] | E
     }
 
     if (queryParams?.filters?.email) {
-      result = await userProvider.getByEmail(queryParams.filters.email)
+      result = await userRepository.getByEmail(queryParams.filters.email)
       if (!result) {
         throw new AppError('Usuário não encontrado', 404)
       }
@@ -53,7 +53,7 @@ const getUsers = async (queryParams?: GetUserTypes): Promise<IUser | IUser[] | E
     }
 
     // se nenhum filtro foi informado → retorna todos
-    result = await userProvider.read({
+    result = await userRepository.read({
       page: queryParams?.pagination?.page,
       limit: queryParams?.pagination?.limit
     })
