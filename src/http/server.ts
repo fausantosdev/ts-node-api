@@ -1,3 +1,4 @@
+import path from 'node:path'
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 
@@ -18,6 +19,8 @@ server.use(cors({
 }))
 
 server.use(express.json())
+
+server.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'uploads')))
 
 routes(server)
 
