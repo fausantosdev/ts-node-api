@@ -1,8 +1,15 @@
-import { get, getQueryValidation } from './getCollections'
+import { findItems, findItemsQueryValidation } from './getItems'
+import { addPoint, addPointValidation } from './createPoint'
 
-const itemController = {
-  get,
-  getQueryValidation,
+const collectionController = {
+  item: {
+    findItems,
+    findItemsQueryValidation,
+  },
+  point: {
+    addPoint,
+    addPointValidation
+  }
 }
 
-export { itemController }
+export { collectionController }

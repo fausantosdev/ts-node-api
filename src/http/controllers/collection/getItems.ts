@@ -12,7 +12,7 @@ type QueryTypes = {
   filter?: string | undefined
 }
 // Impede que os parâmetros sejam passados incorretamente
-const getQueryValidation = validation((getSchema) => ({
+const findItemsQueryValidation = validation((getSchema) => ({
   query: getSchema<QueryTypes>(
       yup
         .object()
@@ -24,7 +24,7 @@ const getQueryValidation = validation((getSchema) => ({
   )
 }))
 
-async function get(
+async function findItems(
   request: Request<{}, {}, {}, QueryTypes>,
   response: Response
 ){
@@ -51,6 +51,6 @@ async function get(
 }
 
 export {
-  get,
-  getQueryValidation
+  findItems,
+  findItemsQueryValidation
 }
