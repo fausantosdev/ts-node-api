@@ -11,7 +11,8 @@ const createPoint = async ({
   latitude,
   longitude,
   city,
-  uf
+  uf,
+  items
 }: CreatePointDTO) => {
   try {
     const newPoint = await pointRepository.create({
@@ -23,7 +24,8 @@ const createPoint = async ({
       latitude,
       longitude,
       city,
-      uf
+      uf,
+      items
     })
 
     return newPoint

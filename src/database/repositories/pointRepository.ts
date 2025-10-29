@@ -14,10 +14,13 @@ const create = async ({
   latitude,
   longitude,
   city,
-  uf
+  uf,
+  items
 }: CreatePointDTO): Promise<number | Error> => {
   try {
-    const [ result ] = await connection(ETableNames.points)
+    const trx = await connection.transaction()
+
+    const insertedPoints  = await trx(ETableNames.points)
       .insert({
         user_id,
         image,
@@ -31,13 +34,29 @@ const create = async ({
       })
       .returning('id')
 
+    const point = insertedPoints[0]
 
-    if (!result){
+    const pointItems = items.map((item_id) => {
+      return {
+        item_id,
+        point_id: point.id
+      }
+    })
+
+    const item_points = await trx(ETableNames.point_items)
+      .insert(pointItems)
+
+    await trx.commit()
+
+    if (!item_points){
+      throw new DatabaseError('Erro ao associar itens ao ponto de coleta')
+    }
+
+    if (!point.id){
       throw new DatabaseError('Erro ao criar ponto de coleta')
     }
 
-    return result.id
-
+    return point.id
   } catch (error: any) {
     throw new DatabaseError(error)
   }

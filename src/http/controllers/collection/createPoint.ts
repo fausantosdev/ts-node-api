@@ -19,7 +19,8 @@ const addPointValidation = validation((getSchema) => ({
         latitude: yup.number().required(),
         longitude: yup.number().required(),
         city: yup.string().required(),
-        uf: yup.string().length(2).required()
+        uf: yup.string().length(2).required(),
+        items: yup.array().of(yup.number().required()).min(1).required()
       })
   )
 }))
@@ -36,7 +37,8 @@ async function addPoint(
     latitude,
     longitude,
     city,
-    uf
+    uf,
+    items
   } = request.body
 
   try {
@@ -49,7 +51,8 @@ async function addPoint(
       latitude,
       longitude,
       city,
-      uf
+      uf,
+      items
     })
 
     return response
