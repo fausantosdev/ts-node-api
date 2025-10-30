@@ -20,4 +20,11 @@ collectionRoutes.post(
   collectionController.point.addPoint
 )
 
+collectionRoutes.get(
+  '/points{/:id}',
+  ensureAuthenticated,
+  collectionController.point.findPointsQueryValidation,
+  collectionController.point.findPoints
+)
+
 export { collectionRoutes }

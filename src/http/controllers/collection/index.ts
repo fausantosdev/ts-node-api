@@ -1,5 +1,6 @@
 import { findItems, findItemsQueryValidation } from './getItems'
 import { addPoint, addPointValidation } from './createPoint'
+import { findPoints, findPointsQueryValidation } from './findPoints'
 
 const collectionController = {
   item: {
@@ -8,7 +9,9 @@ const collectionController = {
   },
   point: {
     addPoint,
-    addPointValidation
+    addPointValidation,
+    findPoints,
+    findPointsQueryValidation
   }
 }
 

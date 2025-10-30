@@ -74,6 +74,20 @@ const getById = async (id: number): Promise<IItem | undefined> => {
   }
 }
 
+const getByPointId = async (id: number): Promise<IItem[]> => {
+  try {
+    const result = await connection('items')
+      .select('items.title')
+      .join('point_items', 'items.id', '=', 'point_items.item_id')
+      .where('point_items.point_id', '=', id)
+
+    return result
+
+  } catch (error: any) {
+    throw new DatabaseError(error)
+  }
+}
+
 const update = async ({
   data,
   where
@@ -110,6 +124,7 @@ export const itemRepository = {
   create,
   read,
   getById,
+  getByPointId,
   update,
   remove,
 }

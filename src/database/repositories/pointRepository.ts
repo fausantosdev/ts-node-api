@@ -65,15 +65,54 @@ const create = async ({
 const read = async ({
   where = {},
   page = 1,
-  limit = 20
+  limit = 20,
+  filter
 }:{
   where?: Partial<IPoint>
   page?: number | undefined
   limit?: number | undefined
+  filter?: {
+    city?: string | undefined
+    uf?: string | undefined
+    items?: string | undefined
+  }
 }): Promise<IPoint[]> => {
+  let result
   try {
-    const result = await connection(ETableNames.points)
-      .select('*')
+    const query = connection(ETableNames.points)
+
+    // Se tiver filtro, aplica condicionalmente
+    if (filter) {
+      // Filtro por items
+      if (filter.items) {
+        const parcedItems = filter.items
+          .split(',')
+          .map(item => Number(item.trim()))
+          .filter(Boolean) // evita NaN caso venha vazio
+
+          query
+            .join(ETableNames.point_items, 'points.id', '=', 'point_items.point_id')
+            .whereIn('point_items.item_id', parcedItems)
+      }
+
+      // Filtros individuais
+      if (filter.city) {
+        query.where('city', filter.city)
+      }
+
+      if (filter.uf) {
+        query.where('uf', filter.uf)
+      }
+
+      query
+        .distinct()
+        .select('points.*')
+    } else {
+      // Caso não tenha filtro, seleciona tudo
+      query.select('*')
+    }
+
+    result = await query
       .where(where)
       .offset((page - 1) * limit)
       .limit(limit)
