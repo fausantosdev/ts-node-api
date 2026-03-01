@@ -1,9 +1,11 @@
 
 import { logIn, logInValidation } from './log-in'
+import { tokenRefresh } from './token-refresh'
 
 const authController = {
   logIn,
-  logInValidation
+  logInValidation,
+  tokenRefresh
 }
 
 export { authController }
