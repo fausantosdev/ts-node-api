@@ -10,4 +10,9 @@ authRoutes.post(
   authController.logIn
 )
 
+authRoutes.post(
+  '/refresh-token',
+  authController.tokenRefresh
+)
+
 export { authRoutes }
