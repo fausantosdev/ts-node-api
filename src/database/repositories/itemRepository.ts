@@ -43,7 +43,7 @@ const read = async ({
       .offset((page - 1) * limit)
       .limit(limit)
 
-    const serializedItens = result.map((item: IItem) => {
+    /*const serializedItens = result.map((item: IItem) => {
       return {
         id: item.id,
         user_id: item.user_id,
@@ -52,9 +52,9 @@ const read = async ({
         created_at: item.created_at,
         updated_at: item.updated_at
       }
-    })
+    })*/
 
-    return serializedItens
+    return result
 
   } catch (error: any) {
     throw new DatabaseError(error)
