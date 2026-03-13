@@ -6,6 +6,9 @@ dotenv.config({ path: resolve(__dirname, '..', '.env') })
 
 const envSchema = yup.object({
   APP_KEY: yup.string().required(),
+  APP_URL: process.env.NODE_ENV === 'production' ?
+    yup.string().url().required() :
+    yup.string().required(),
   PORT: yup.number().default(4004),
   JWT_EXPIRATION: yup.mixed<number | string>().default('1d'),
   JWT_ALGORITHM: yup.string().default('HS256'),

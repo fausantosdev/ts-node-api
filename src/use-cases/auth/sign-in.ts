@@ -4,7 +4,7 @@ import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 import { jwt } from '../../shared/services/jwt'
 
-const signIn = async ({ email, password }: SignInDTO): Promise<string | Error> => {
+const signIn = async ({ email, password }: SignInDTO): Promise<{ user: { id: string | number, email: string }, token: string } | Error> => {
   try {
     const userExists = await userRepository.getByEmail(email)
 
@@ -23,7 +23,13 @@ const signIn = async ({ email, password }: SignInDTO): Promise<string | Error> =
       role: userExists.role
     })
 
-    return token
+    return {
+      user: {
+        id: userExists.id,
+        email: userExists.email
+      },
+      token
+    }
 
   } catch (error: any) {
     throw new AppError(error.message, error.statusCode)
