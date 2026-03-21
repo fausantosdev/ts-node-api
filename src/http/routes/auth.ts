@@ -15,4 +15,16 @@ authRoutes.post(
   authController.tokenRefresh
 )
 
+authRoutes.post(
+  '/forgot-password',
+  authController.forgotPassValidation,
+  authController.forgotPass
+)
+
+authRoutes.post(
+  '/reset-password',
+  authController.resetPassValidation,
+  authController.resetPass
+)
+
 export { authRoutes }
