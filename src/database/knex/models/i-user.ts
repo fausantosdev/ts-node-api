@@ -4,8 +4,8 @@ interface IUser {
   email: string
   password_hash: string
   role: string
-  password_reset_token: string
-  password_reset_expires: string
+  password_reset_token: string | null
+  password_reset_expires: Date | null
   created_at: Date
   updated_at: Date
 }

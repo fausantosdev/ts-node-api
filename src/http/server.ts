@@ -31,7 +31,7 @@ server.use((err: any, req: Request, res: Response, next: NextFunction) => {
       .status(err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
       .json(responseHelper({
         status: false,
-        errors: err.message
+        errors: err.message,
       }))
   }
 

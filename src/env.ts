@@ -18,7 +18,11 @@ const envSchema = yup.object({
     .mixed<'development' | 'test' | 'production'>()
     .oneOf(['development', 'test', 'production'])
     .default('development'),
-  ENABLED_CORS: yup.string()
+  ENABLED_CORS: yup.string(),
+  EMAIL_HOST: yup.string().required(),
+  EMAIL_PORT: yup.number().required(),
+  EMAIL_USER: yup.string().required(),
+  EMAIL_PASS: yup.string().required()
 })
 
 let env: yup.InferType<typeof envSchema>

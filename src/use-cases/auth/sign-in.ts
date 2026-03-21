@@ -4,7 +4,7 @@ import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 import { jwt } from '../../shared/services/jwt'
 
-const signIn = async ({ email, password }: SignInDTO): Promise<{ user: { id: string | number, email: string }, token: string } | Error> => {
+const signIn = async ({ email, password }: SignInDTO) => {
   try {
     const userExists = await userRepository.getByEmail(email)
 
@@ -17,6 +17,7 @@ const signIn = async ({ email, password }: SignInDTO): Promise<{ user: { id: str
     if(!passwordCheck){
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)
     }
+
     const token = jwt.generate({
       id: userExists.id,
       email: userExists.email,
