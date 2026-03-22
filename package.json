@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./dist/src",
+    "start": "node ./dist",
     "dev": "ts-node-dev ./src",
     "build": "tsc",
     "knex:make": "knex --knexfile ./src/database/knex/environment.ts migrate:make",
