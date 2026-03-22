@@ -26,7 +26,11 @@ const envSchema = yup.object({
 let env: yup.InferType<typeof envSchema>
 
 try {
-  env = envSchema.validateSync(process.env, { abortEarly: false })
+  env = envSchema.validateSync(process.env, {
+    abortEarly: false,
+    stripUnknown: true,
+    strict: false
+  })
 } catch (err) {
   if (err instanceof yup.ValidationError) {
     console.error('x Invalid environment variables:')
