@@ -12,7 +12,7 @@ const isAdmin: RequestHandler = (request, response, next) =>
       .send(responseHelper({
         status: false,
         data: null,
-        errors: ['Não autorizado [4]']
+        message: 'Não autorizado [4]'
       }))
   })
 

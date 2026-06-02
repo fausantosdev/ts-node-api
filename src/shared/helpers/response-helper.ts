@@ -1,17 +1,17 @@
 export type ResponseHelper = {
   status?: boolean
   data?: any
-  errors?: string | Array<string> | object | null
+  message?: string | Array<string>
 }
 
 export function responseHelper({
   status = true,
   data = null,
-  errors = null,
+  message = '',
 }: ResponseHelper): ResponseHelper {
   return {
     status,
     data,
-    errors,
+    message,
   }
 }

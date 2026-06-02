@@ -35,7 +35,7 @@ const validation: ValidationTypes = (getAllSchemas) =>
         .status(StatusCodes.BAD_REQUEST)
         .send(responseHelper({
           status: false,
-          errors: errorsResult
+          message: errorsResult
         }))
     }
   }
