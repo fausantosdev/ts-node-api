@@ -15,7 +15,7 @@ const checkUserOrAdmin: RequestHandler = (request, response, next) =>
       .send(responseHelper({
         status: false,
         data: null,
-        errors: ['Não autorizado [3]']
+        message: 'Não autorizado [3]'
       }))
   })
 

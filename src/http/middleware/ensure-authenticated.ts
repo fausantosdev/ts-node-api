@@ -10,7 +10,7 @@ const ensureAuthenticated: RequestHandler = (request, response, next) => {
       .status(401)
       .json(responseHelper({
         status: false,
-        errors: ['Não autorizado [1]']
+        message: 'Não autorizado [1]'
       }))
   }
 
@@ -21,7 +21,7 @@ const ensureAuthenticated: RequestHandler = (request, response, next) => {
       .status(401)
       .json(responseHelper({
         status: false,
-        errors: ['Não autorizado [2]']
+        message: 'Não autorizado [2]'
       }))
   }
 

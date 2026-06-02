@@ -40,7 +40,7 @@ async function resetPass(
       .json(responseHelper({
         status: false,
         data: null,
-        errors: error.message || 'Internal server error'
+        message: error.message || 'Internal server error'
       }))
   }
 }
