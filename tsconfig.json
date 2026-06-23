@@ -44,6 +44,7 @@
       "./src/@types", // Inclui o diretório onde o seu .d.ts está
       "./node_modules/@types"
     ],
+    "strictPropertyInitialization": false,
   },
   "include": ["src/**/*.ts"],
   "exclude": [

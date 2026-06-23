@@ -20,7 +20,15 @@ const envSchema = yup.object({
   EMAIL_HOST: yup.string().required(),
   EMAIL_PORT: yup.number().required(),
   EMAIL_USER: yup.string().required(),
-  EMAIL_PASS: yup.string().required()
+  EMAIL_PASS: yup.string().required(),
+  STORAGE_DRIVER: yup
+    .mixed<'s3' | 'local'>()
+    .oneOf(['s3', 'local'])
+    .default('local'),
+  AWS_BUCKET_NAME: yup.string().required(),
+  AWS_REGION: yup.string().required(),
+  AWS_ACCESS_KEY_ID: yup.string().required(),
+  AWS_SECRET_ACCESS_KEY: yup.string().required(),
 })
 
 let env: yup.InferType<typeof envSchema>
