@@ -1,10 +1,14 @@
 import { userRepository } from '../../database/repositories'
-import { SignInDTO } from '../../dtos/sign-in-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 import { jwt } from '../../shared/services/jwt'
 
-const signIn = async ({ email, password }: SignInDTO) => {
+type SignInInput = {
+  email: string
+  password: string
+}
+
+const signIn = async ({ email, password }: SignInInput) => {
   try {
     const userExists = await userRepository.getByEmail(email)
 
@@ -12,7 +16,7 @@ const signIn = async ({ email, password }: SignInDTO) => {
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)
     }
 
-    const passwordCheck = await encrypt.compare(password, userExists.password_hash)
+    const passwordCheck = await encrypt.compare(password, userExists.password)
 
     if(!passwordCheck){
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)

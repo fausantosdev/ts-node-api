@@ -1,10 +1,14 @@
+import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
-import { ForgotPasswordDTO } from '../../dtos/forgot-password-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 import { mail } from '../../shared/services/mail'
 
-const forgotPassword = async ({ email }: ForgotPasswordDTO): Promise<number | Error> => {
+type ForgotPasswordInput = {
+  email: string
+}
+
+const forgotPassword = async ({ email }: ForgotPasswordInput): Promise<number | Error> => {
   try {
     const userExists = await userRepository.getByEmail(email)
 
@@ -15,12 +19,13 @@ const forgotPassword = async ({ email }: ForgotPasswordDTO): Promise<number | Er
     const now = new Date()
     now.setHours(now.getHours() + 1)
 
+    const user = new User()
+    user.password_reset_token = hash
+    user.password_reset_expires = now
+
     const updatedId = await userRepository.update({
       where: { id: userExists.id },
-      data: {
-        password_reset_token: hash,
-        password_reset_expires: now
-      }
+      data: user
     })
 
     if(!updatedId) throw new AppError('Falha ao gerar o token', 401)// Ou 'return 0'
