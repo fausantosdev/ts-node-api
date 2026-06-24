@@ -1,9 +1,15 @@
+import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
-import {ResetPasswordDTO } from '../../dtos/reset-password-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
-const resetPassword = async ({ email, token, newPassword }: ResetPasswordDTO): Promise<number | Error> => {
+type ResetPasswordInput = {
+  email: string
+  token: string
+  newPassword: string
+}
+
+const resetPassword = async ({ email, token, newPassword }: ResetPasswordInput): Promise<number | Error> => {
   try {
     const userExists = await userRepository.getByEmail(email)
 
@@ -15,13 +21,14 @@ const resetPassword = async ({ email, token, newPassword }: ResetPasswordDTO): P
 
     const newPasswordHash = await encrypt.hash(newPassword)
 
+    const user = new User()
+    user.password = newPasswordHash
+    user.password_reset_token = null
+    user.password_reset_expires = null
+
     const updatedId = await userRepository.update({
       where: { id: userExists.id },
-      data: {
-        password: newPasswordHash,
-        password_reset_token: null,
-        password_reset_expires: null
-      }
+      data: user
     })
 
     if(!updatedId) throw new AppError('Ocorreu um erro, por favor tente novamente', 401)
