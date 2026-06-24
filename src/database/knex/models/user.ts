@@ -1,8 +1,8 @@
-interface IUser {
+class User {
   id: number
   name: string
   email: string
-  password_hash: string
+  password: string
   role: string
   password_reset_token: string | null
   password_reset_expires: Date | null
@@ -10,4 +10,4 @@ interface IUser {
   updated_at: Date
 }
 
-export type { IUser }
+export { User }
