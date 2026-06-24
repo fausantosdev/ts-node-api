@@ -1,3 +1,3 @@
-export * from './i-user'
+export * from './user'
 export * from './file'
 
