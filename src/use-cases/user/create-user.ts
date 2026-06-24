@@ -1,9 +1,15 @@
+import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
-import { CreateUserDTO } from '../../dtos/create-user-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
-const createUser = async ({ name, email, password }: CreateUserDTO): Promise<number | Error> => {
+type CreateUserInput = {
+  name: string
+  email: string
+  password: string
+}
+
+const createUser = async ({ name, email, password }: CreateUserInput): Promise<number | Error> => {
   try {
     const emailAlreadyExists = await userRepository.getByEmail(email)
 
@@ -11,11 +17,12 @@ const createUser = async ({ name, email, password }: CreateUserDTO): Promise<num
       throw new AppError('Email já cadastrado', 409)
     }
 
-    const newUserId = await userRepository.create({
-      name,
-      email,
-      password: await encrypt.hash(password)
-    })
+    const user = new User()
+    user.name = name
+    user.email = email
+    user.password = await encrypt.hash(password)
+
+    const newUserId = await userRepository.create(user)
 
     return newUserId
 

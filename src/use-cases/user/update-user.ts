@@ -1,14 +1,14 @@
+import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
-import { UpdateUserDTO } from '../../dtos/update-user-dto'
 import { AppError } from '../../shared/utils/errors/app-error'
+import { encrypt } from '../../shared/services/encrypt'
 
-
-type UpdateUserTypes = {
- id: number,
- data: UpdateUserDTO
+type UpdateUserInput = {
+ id: number
+ data: User
 }
 
-const updateUser = async ({ id, data }: UpdateUserTypes): Promise<number | Error> => {
+const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error> => {
   try {
     const userExists = await userRepository.getById(id)
 
@@ -22,6 +22,10 @@ const updateUser = async ({ id, data }: UpdateUserTypes): Promise<number | Error
       if (userWithEmailExists && userWithEmailExists.id !== id) {
         throw new AppError('Já existe um usuário com este email', 400)
       }
+    }
+
+    if(data.password) {
+      data.password = await encrypt.hash(data.password)
     }
 
     const result = await userRepository.update({ data, where: { id } })

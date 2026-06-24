@@ -1,4 +1,4 @@
-import { IUser } from '../../database/knex/models'
+import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 
@@ -13,12 +13,12 @@ type PaginationTypes = {
   page: number| undefined
 }
 
-type GetUserTypes = {
+type GetUserInput = {
   filters?: FiltersTypes
   pagination?: PaginationTypes
 }
 
-const getUsers = async (queryParams?: GetUserTypes): Promise<IUser | IUser[] | Error> => {
+const getUsers = async (queryParams?: GetUserInput): Promise<User | User[] | Error> => {
   try {
     let result
 
