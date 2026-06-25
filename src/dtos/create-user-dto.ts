@@ -1,6 +1,6 @@
-import { IUser } from '../database/knex/models'
+import { User } from '../database/knex/models'
 
-interface CreateUserDTO extends Omit<IUser,
+interface CreateUserDTO extends Omit<User,
   'id' |
   'password_hash' |
   'role' |
