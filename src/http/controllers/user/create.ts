@@ -23,8 +23,10 @@ async function create(
   request: Request<{}, {}, CreateUserDTO>,
   response: Response
 ){
+  const { name, email, password } = request.body
+
   try {
-    const result = await createUser(request.body)
+    const result = await createUser({ name, email, password })
 
     return response
       .status(StatusCodes.CREATED)
