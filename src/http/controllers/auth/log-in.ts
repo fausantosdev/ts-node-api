@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { SignInDTO } from '../../../dtos/sign-in-dto'
+import { SignInDTO } from '../../dtos/sign-in-dto'
 import { signIn } from '../../../use-cases'
 
 const logInValidation = validation((getSchema) => ({

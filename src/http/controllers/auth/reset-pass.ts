@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
 import { resetPassword } from '../../../use-cases'
-import { ResetPasswordDTO } from '../../../dtos/reset-password-dto'
+import { ResetPasswordDTO } from '../../dtos/reset-password-dto'
 
 const resetPassValidation = validation((getSchema) => ({
   body: getSchema<ResetPasswordDTO>(

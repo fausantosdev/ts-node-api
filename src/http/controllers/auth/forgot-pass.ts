@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
 import { forgotPassword } from '../../../use-cases'
-import { ForgotPasswordDTO } from '../../../dtos/forgot-password-dto'
+import { ForgotPasswordDTO } from '../../dtos/forgot-password-dto'
 
 const forgotPassValidation = validation((getSchema) => ({
   body: getSchema<ForgotPasswordDTO>(

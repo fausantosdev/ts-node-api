@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
-import { UpdateUserDTO } from '../../../dtos/update-user-dto'
+import { UpdateUserDTO } from '../../dtos/update-user-dto'
 import { updateUser } from '../../../use-cases'
 
 type ParamsTypes = {
