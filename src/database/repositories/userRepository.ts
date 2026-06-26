@@ -101,7 +101,7 @@ const update = async ({
   data,
   where
 }:{
-  data: User
+  data: Partial<Omit<User, 'id' | 'created_at' | 'updated_at'>>
   where: Partial<User>
 }): Promise<number> => {
   try {
