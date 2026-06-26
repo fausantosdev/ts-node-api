@@ -3,9 +3,13 @@ import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
+type UpdateUserData = Partial<
+  Omit<User, 'id' | 'created_at' | 'updated_at'>
+>
+
 type UpdateUserInput = {
  id: number
- data: User
+ data: UpdateUserData
 }
 
 const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error> => {
