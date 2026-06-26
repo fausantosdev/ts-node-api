@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
 
-import { env } from '../env'
+import { env } from './env'
 
 export default {
   driver: env.STORAGE_DRIVER,

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import * as yup from 'yup'
 
-import { env } from '../../../env'
+import { env } from '../../../config/env'
 
 import { validation } from '../../middleware'
 import { responseHelper } from '../../../shared/helpers/response-helper'
