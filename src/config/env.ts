@@ -2,7 +2,7 @@ import { resolve } from 'node:path'
 import * as dotenv from 'dotenv'
 import * as yup from 'yup'
 
-dotenv.config({ path: resolve(__dirname, '..', '.env') })
+dotenv.config({ path: resolve(__dirname, '..', '..', '.env') })
 
 const envSchema = yup.object({
   APP_KEY: yup.string().required(),

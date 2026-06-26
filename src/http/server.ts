@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes'
 import './../shared/services/yup-translations'
 import { routes } from './routes'
 import { responseHelper } from '../shared/helpers/response-helper'
-import { env } from '../env'
+import { env } from '../config/env'
 
 const server = express()
 

@@ -1,5 +1,5 @@
 import { connection } from './database/knex/connection'
-import { env } from './env'
+import { env } from './config/env'
 
 import { server } from './http/server'
 

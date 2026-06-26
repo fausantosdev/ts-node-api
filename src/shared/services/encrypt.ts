@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto'
 import bcrypt from 'bcrypt'
-import { env } from '../../env'
+import { env } from '../../config/env'
 
 const encrypt = {
   async hash(value: string): Promise<string> {

@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { Knex } from 'knex'
 
-import { env } from '../../env'
+import { env } from '../../config/env'
 
 export const development: Knex.Config = {
   client: env.DB_CLIENT,

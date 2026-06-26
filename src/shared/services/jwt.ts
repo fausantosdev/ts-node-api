@@ -1,6 +1,6 @@
 import jsonWebToken from 'jsonwebtoken'
 
-import { env } from '../../env'
+import { env } from '../../config/env'
 
 const jwt = {
   generate: (payload: object): string => {
