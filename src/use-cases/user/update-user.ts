@@ -3,13 +3,13 @@ import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
+type UpdateUserData = Partial<
+  Omit<User, 'id' | 'created_at' | 'updated_at'>
+>
+
 type UpdateUserInput = {
   id: string | number
-  data: {
-    name?: string
-    email?: string
-    password?: string
-  }
+  data: UpdateUserData
 }
 
 const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error> => {
@@ -34,8 +34,12 @@ const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error
       user.email = data.email
     }
 
-    if(data.password) {
-      user.password = await encrypt.hash(data.password)
+    if(data.password_hash) {
+      user.password_hash = await encrypt.hash(data.password_hash)
+    }
+
+    if(data.password_hash) {
+      data.password_hash = await encrypt.hash(data.password_hash)
     }
 
     const result = await userRepository.update({ data: user, where: { id: Number(id) } })

@@ -20,7 +20,7 @@ const createUser = async ({ name, email, password }: CreateUserInput): Promise<n
     const user = new User()
     user.name = name
     user.email = email
-    user.password = await encrypt.hash(password)
+    user.password_hash = await encrypt.hash(password)
 
     const newUserId = await userRepository.create(user)
 
