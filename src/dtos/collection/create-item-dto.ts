@@ -1,5 +1,6 @@
-import { IItem } from '../../database/knex/models'
-
-interface CreateItemDTO extends Omit<IItem, 'id' | 'created_at'| 'updated_at'>{}
+interface CreateItemDTO {
+  title: string
+  image: string
+}
 
 export type { CreateItemDTO }

@@ -46,7 +46,7 @@ const read = async ({
   }
 }
 
-const getById = async (id: number): Promise<User | undefined> => {
+const getById = async (id: string | number): Promise<User | undefined> => {
   try {
     const result = await connection('users')
       .select('*')
@@ -101,7 +101,7 @@ const update = async ({
   data,
   where
 }:{
-  data: User
+  data: Omit<User, 'id' | 'created_at' | 'updated_at'>
   where: Partial<User>
 }): Promise<number> => {
   try {

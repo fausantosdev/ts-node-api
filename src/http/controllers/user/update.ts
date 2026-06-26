@@ -11,12 +11,6 @@ type ParamsTypes = {
   id?: number
 }
 
-type BodyTypes = {
-  name?: string | undefined
-  email?: string | undefined
-  password?: string | undefined
-}
-
 // Impede que os parâmetros sejam passados incorretamente
 const updateValidation = validation((getSchema) => ({
   params: getSchema<ParamsTypes>(
@@ -30,7 +24,7 @@ const updateValidation = validation((getSchema) => ({
           .moreThan(0)
       })
   ),
-  body: getSchema<BodyTypes>(
+  body: getSchema<UpdateUserDTO>(
     yup
       .object()
       .shape({
@@ -42,13 +36,17 @@ const updateValidation = validation((getSchema) => ({
 }))
 
 async function update(
-  request: Request<ParamsTypes, {}, BodyTypes, {}>,
+  request: Request<ParamsTypes, {}, UpdateUserDTO, {}>,
   response: Response
 ){
-  const { id } = request.params
+  const { id } = request.user
 
   try {
-    const result = await updateUser({ id: id!, data: request.body as UpdateUserDTO })
+    const result = await updateUser({
+      id: id,
+      // cast to any to satisfy exactOptionalPropertyTypes differences
+      data: request.body as any
+    })
 
     return response
       .status(StatusCodes.OK)

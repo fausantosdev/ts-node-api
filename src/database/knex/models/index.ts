@@ -1,4 +1,4 @@
 export * from './user'
-export * from './i-item'
-export * from './i-point'
+export * from './item'
+export * from './point'
 export * from './file'

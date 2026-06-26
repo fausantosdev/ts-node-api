@@ -4,8 +4,12 @@ import { AppError } from '../../shared/utils/errors/app-error'
 import { encrypt } from '../../shared/services/encrypt'
 
 type UpdateUserInput = {
- id: number
- data: User
+  id: string | number
+  data: {
+    name?: string
+    email?: string
+    password?: string
+  }
 }
 
 const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error> => {
@@ -16,19 +20,25 @@ const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error
       throw new AppError('Usuário não encontrado', 404)
     }
 
+    const user = new User()
+
+    if(data.name) user.name = data.name
+
     if (data.email) {
       const userWithEmailExists = await userRepository.getByEmail(data.email)
 
       if (userWithEmailExists && userWithEmailExists.id !== id) {
         throw new AppError('Já existe um usuário com este email', 400)
       }
+
+      user.email = data.email
     }
 
     if(data.password) {
-      data.password = await encrypt.hash(data.password)
+      user.password = await encrypt.hash(data.password)
     }
 
-    const result = await userRepository.update({ data, where: { id } })
+    const result = await userRepository.update({ data: user, where: { id: Number(id) } })
 
     return result
 

@@ -1,12 +1,12 @@
-import { IPoint, IItem } from '../../../database/knex/models'
+import { Point, Item } from '../../../database/knex/models'
 import { pointRepository, itemRepository } from '../../../database/repositories'
 import { AppError } from '../../../shared/utils/errors/app-error'
 
 type FilterYypes ={
-    city?: string | undefined
-    uf?: string | undefined
-    items?: string | undefined
-  }
+  city?: string | undefined
+  uf?: string | undefined
+  items?: string | undefined
+}
 
 type PaginationTypes = {
   limit: number | undefined
@@ -20,11 +20,11 @@ type GetPointTypes = {
 }
 
 type GetPointWithItemsTypes = {
-  point: IPoint
-  items: IItem[]
+  point: Point
+  items: Item[]
 }
 
-const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItemsTypes | IPoint[] | Error> => {
+const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItemsTypes | Point[] | Error> => {
   try {
     let result
 

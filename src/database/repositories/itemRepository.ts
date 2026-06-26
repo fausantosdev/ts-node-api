@@ -1,11 +1,8 @@
+import { Item } from '../knex/models'
 import { connection } from '../knex/connection'
-import { CreateItemDTO } from '../../dtos/collection/create-item-dto'
-import { IItem } from '../knex/models'
-import { UpdateItemDTO } from '../../dtos/collection/update-item-dto'
-import { DatabaseError } from '../../shared/utils/errors/database-error'
-import { env } from '../../env'
+import { AppError } from '../../shared/utils/errors/app-error'
 
-const create = async ({ user_id, title, image }: CreateItemDTO): Promise<number | Error> => {
+const create = async ({ user_id, title, image }: Item): Promise<number | Error> => {
   try {
     const [ result ] = await connection('items')
       .insert({
@@ -17,13 +14,13 @@ const create = async ({ user_id, title, image }: CreateItemDTO): Promise<number 
 
 
     if (!result){
-      throw new DatabaseError('Erro ao criar item')
+      throw new AppError('Erro ao criar item')
     }
 
     return result.id
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
@@ -32,10 +29,10 @@ const read = async ({
   page = 1,
   limit = 20
 }:{
-  where?: Partial<IItem>
+  where?: Partial<Item>
   page?: number | undefined
   limit?: number | undefined
-}): Promise<IItem[]> => {
+}): Promise<Item[]> => {
   try {
     const result = await connection('items')
       .select('*')
@@ -43,7 +40,7 @@ const read = async ({
       .offset((page - 1) * limit)
       .limit(limit)
 
-    /*const serializedItens = result.map((item: IItem) => {
+    /*const serializedItens = result.map((item: Item) => {
       return {
         id: item.id,
         user_id: item.user_id,
@@ -57,11 +54,11 @@ const read = async ({
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
-const getById = async (id: number): Promise<IItem | undefined> => {
+const getById = async (id: number): Promise<Item | undefined> => {
   try {
     const result = await connection('items')
       .select('*')
@@ -70,11 +67,11 @@ const getById = async (id: number): Promise<IItem | undefined> => {
     return result[0]
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
-const getByPointId = async (id: number): Promise<IItem[]> => {
+const getByPointId = async (id: number): Promise<Item[]> => {
   try {
     const result = await connection('items')
       .select('items.title')
@@ -84,7 +81,7 @@ const getByPointId = async (id: number): Promise<IItem[]> => {
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
@@ -92,8 +89,8 @@ const update = async ({
   data,
   where
 }:{
-  data: UpdateItemDTO
-  where: Partial<IItem>
+  data: Item
+  where: Partial<Item>
 }): Promise<number> => {
   try {
     const result = await connection('item')
@@ -103,11 +100,11 @@ const update = async ({
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
-const remove = async (where: Partial<IItem>): Promise<number> => {
+const remove = async (where: Partial<Item>): Promise<number> => {
   try {
     const result = await connection('items')
       .where(where)
@@ -116,7 +113,7 @@ const remove = async (where: Partial<IItem>): Promise<number> => {
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 

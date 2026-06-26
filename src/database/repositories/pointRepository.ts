@@ -1,8 +1,6 @@
 import { connection } from '../knex/connection'
-import { CreatePointDTO } from '../../dtos/collection/create-point-dto'
-import { IPoint } from '../knex/models'
-import { UpdatePointDTO } from '../../dtos/collection/update-point-dto'
-import { DatabaseError } from '../../shared/utils/errors/database-error'
+import { Point } from '../knex/models'
+import { AppError } from '../../shared/utils/errors/app-error'
 import { ETableNames } from '../knex/e-table-names'
 
 const create = async ({
@@ -16,11 +14,11 @@ const create = async ({
   city,
   uf,
   items
-}: CreatePointDTO): Promise<number | Error> => {
+}: Point): Promise<number | Error> => {
   try {
     const trx = await connection.transaction()
 
-    const insertedPoints  = await trx(ETableNames.points)
+    const insertedPoints = await trx(ETableNames.points)
       .insert({
         user_id,
         image,
@@ -49,16 +47,16 @@ const create = async ({
     await trx.commit()
 
     if (!item_points){
-      throw new DatabaseError('Erro ao associar itens ao ponto de coleta')
+      throw new AppError('Erro ao associar itens ao ponto de coleta')
     }
 
     if (!point.id){
-      throw new DatabaseError('Erro ao criar ponto de coleta')
+      throw new AppError('Erro ao criar ponto de coleta')
     }
 
     return point.id
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
@@ -68,7 +66,7 @@ const read = async ({
   limit = 20,
   filter
 }:{
-  where?: Partial<IPoint>
+  where?: Partial<Point>
   page?: number | undefined
   limit?: number | undefined
   filter?: {
@@ -76,7 +74,7 @@ const read = async ({
     uf?: string | undefined
     items?: string | undefined
   }
-}): Promise<IPoint[]> => {
+}): Promise<Point[]> => {
   let result
   try {
     const query = connection(ETableNames.points)
@@ -120,11 +118,11 @@ const read = async ({
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
-const getById = async (id: number): Promise<IPoint | undefined> => {
+const getById = async (id: number): Promise<Point | undefined> => {
   try {
     const result = await connection(ETableNames.points)
       .select('*')
@@ -133,7 +131,7 @@ const getById = async (id: number): Promise<IPoint | undefined> => {
     return result[0]
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
@@ -141,8 +139,8 @@ const update = async ({
   data,
   where
 }:{
-  data: UpdatePointDTO
-  where: Partial<IPoint>
+  data: Point
+  where: Partial<Point>
 }): Promise<number> => {
   try {
     const result = await connection(ETableNames.points)
@@ -152,11 +150,11 @@ const update = async ({
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 
-const remove = async (where: Partial<IPoint>): Promise<number> => {
+const remove = async (where: Partial<Point>): Promise<number> => {
   try {
     const result = await connection(ETableNames.points)
       .where(where)
@@ -165,7 +163,7 @@ const remove = async (where: Partial<IPoint>): Promise<number> => {
     return result
 
   } catch (error: any) {
-    throw new DatabaseError(error)
+    throw new AppError(error)
   }
 }
 

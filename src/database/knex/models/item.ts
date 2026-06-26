@@ -1,4 +1,4 @@
-interface IItem {
+class Item {
   id: number
   user_id: number
   title: string
@@ -7,4 +7,4 @@ interface IItem {
   updated_at: Date
 }
 
-export type { IItem }
+export { Item }

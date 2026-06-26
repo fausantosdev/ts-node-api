@@ -1,10 +1,13 @@
-import { IPoint } from '../../database/knex/models'
-
-interface CreatePointDTO extends Omit<IPoint,
-  'id' |
-  'created_at'|
-  'updated_at'>{
-    items: number[]
-  }
+interface CreatePointDTO {
+  image: string
+  name: string
+  email: string
+  whatsapp: string
+  latitude: number
+  longitude: number
+  city: string
+  uf: string
+  items: number[]
+}
 
 export type { CreatePointDTO }

@@ -1,10 +1,8 @@
-import { IUser } from '../database/knex/models'
-
-interface UpdateUserDTO extends Partial<Omit<IUser,
-  'id' |
-  'password_hash' |
-  'created_at' |
-  'updated_at'>>{
+// Os DTOs não devem nascer da Entity.
+// Eles representam o contrato HTTP, não a entidade do domínio.
+interface UpdateUserDTO {
+  name?: string | undefined
+  email?: string | undefined
   password?: string | undefined
 }
 

@@ -1,4 +1,4 @@
-interface IPoint {
+class Point {
   id: number
   user_id: number
   image: string
@@ -9,8 +9,9 @@ interface IPoint {
   longitude: number
   city: string
   uf: string
+  items: number[]
   created_at: Date
   updated_at: Date
 }
 
-export type { IPoint }
+export { Point }

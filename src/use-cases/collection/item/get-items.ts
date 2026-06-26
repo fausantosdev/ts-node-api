@@ -1,4 +1,4 @@
-import { IItem } from '../../../database/knex/models'
+import { Item } from '../../../database/knex/models'
 import { itemRepository } from '../../../database/repositories'
 import { AppError } from '../../../shared/utils/errors/app-error'
 
@@ -17,7 +17,7 @@ type GetItemTypes = {
   pagination?: PaginationTypes
 }
 
-const getItems = async (queryParams?: GetItemTypes): Promise<IItem | IItem[] | Error> => {
+const getItems = async (queryParams?: GetItemTypes): Promise<Item | Item[] | Error> => {
   try {
     let result
 
