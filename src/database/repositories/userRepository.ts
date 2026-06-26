@@ -2,13 +2,13 @@ import { connection } from '../knex/connection'
 import { AppError } from './../../shared/utils/errors/app-error'
 import { User } from '../knex/models'
 
-const create = async ({ name, email, password }: User): Promise<number | Error> => {
+const create = async ({ name, email, password_hash }: User): Promise<number | Error> => {
   try {
     const [ result ] = await connection('users')
       .insert({
         name,
         email,
-        password_hash: password
+        password_hash
       })
       .returning('id')
 
@@ -107,8 +107,9 @@ const update = async ({
   try {
     const updateData: any = { ...data }
 
-    if (data.password) updateData.password_hash = data.password
-
+    if (data.password_hash) updateData.password_hash = data.password_hash
+console.log(where)
+console.log(updateData)
     const [result] = await connection('users')
       .update(updateData)
       .where(where)
@@ -117,7 +118,7 @@ const update = async ({
     return result.id
 
   } catch (error: any) {
-    throw new AppError(error)
+    throw new AppError(error.message)
   }
 }
 

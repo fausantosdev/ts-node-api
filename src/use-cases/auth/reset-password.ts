@@ -22,7 +22,7 @@ const resetPassword = async ({ email, token, newPassword }: ResetPasswordInput):
     const newPasswordHash = await encrypt.hash(newPassword)
 
     const user = new User()
-    user.password = newPasswordHash
+    user.password_hash = newPasswordHash
     user.password_reset_token = null
     user.password_reset_expires = null
 

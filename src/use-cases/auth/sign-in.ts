@@ -16,7 +16,7 @@ const signIn = async ({ email, password }: SignInInput) => {
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)
     }
 
-    const passwordCheck = await encrypt.compare(password, userExists.password)
+    const passwordCheck = await encrypt.compare(password, userExists.password_hash)
 
     if(!passwordCheck){
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)

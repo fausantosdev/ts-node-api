@@ -28,8 +28,8 @@ const updateUser = async ({ id, data }: UpdateUserInput): Promise<number | Error
       }
     }
 
-    if(data.password) {
-      data.password = await encrypt.hash(data.password)
+    if(data.password_hash) {
+      data.password_hash = await encrypt.hash(data.password_hash)
     }
 
     const result = await userRepository.update({ data, where: { id } })
