@@ -18,11 +18,11 @@ const create = async ({
         size,
         status
       })
-      .returning('id')
+      .returning(['id', 'name'])
 
     if (!result) throw new AppError('Erro ao criar arquivo')
 
-    return result.id
+    return result
 
   } catch (error: any) {
     throw new AppError(error)
