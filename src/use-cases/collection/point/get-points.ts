@@ -1,6 +1,7 @@
 import { Point, Item } from '../../../database/knex/models'
 import { pointRepository, itemRepository } from '../../../database/repositories'
 import { AppError } from '../../../shared/utils/errors/app-error'
+import { env } from '../../../config/env'
 
 type FilterYypes ={
   city?: string | undefined
@@ -35,10 +36,12 @@ const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItems
         throw new AppError('Ponto não encontrado', 404)
       }
 
+      const point = { ...result, image: `${env.APP_URL}/files/${result.image}` }
+
       const items = await itemRepository.getByPointId(result.id)
 
       return {
-        point: result,
+        point,
         items
       }
     }
@@ -53,7 +56,9 @@ const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItems
       }
     })
 
-    return result
+    const points = result.map(point => ({ ...point, image: `${env.APP_URL}/files/${point.image}` }))
+
+    return points
 
   } catch (error: any) {
     throw new AppError(error.message, error.statusCode ?? 500)

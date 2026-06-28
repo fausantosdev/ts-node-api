@@ -21,7 +21,7 @@ server.use(cors({
 
 server.use(express.json())
 server.use(cookieParser())
-server.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'uploads')))
+server.use('/files', express.static(path.resolve(__dirname, '..', '..', 'storage', 'uploads')))
 
 routes(server)
 
