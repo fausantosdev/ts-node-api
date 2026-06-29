@@ -36,7 +36,7 @@ const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItems
         throw new AppError('Ponto não encontrado', 404)
       }
 
-      const point = { ...result, image: `${env.APP_URL}/files/${result.image}` }
+      const point = { ...result, image: `${env.STORAGE_URL}/${result.image}` }
 
       const items = await itemRepository.getByPointId(result.id)
 
@@ -56,7 +56,7 @@ const getPoints = async (queryParams?: GetPointTypes): Promise<GetPointWithItems
       }
     })
 
-    const points = result.map(point => ({ ...point, image: `${env.APP_URL}/files/${point.image}` }))
+    const points = result.map(point => ({ ...point, image: `${env.STORAGE_URL}/${point.image}` }))
 
     return points
 

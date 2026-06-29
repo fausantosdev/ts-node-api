@@ -33,10 +33,14 @@ const envSchema = yup.object({
   AWS_SECRET_ACCESS_KEY: yup.string().required(),
 })
 
-let env: yup.InferType<typeof envSchema>
+type Env = yup.InferType<typeof envSchema> & {
+  STORAGE_URL: string
+}
+
+let validatedEnv: yup.InferType<typeof envSchema>
 
 try {
-  env = envSchema.validateSync(process.env, {
+  validatedEnv = envSchema.validateSync(process.env, {
     abortEarly: false,
     stripUnknown: true,
     strict: false
@@ -47,6 +51,14 @@ try {
     err.errors.forEach(e => console.error('  -', e))
   }
   process.exit(1)
+}
+
+const env: Env = {
+  ...validatedEnv,
+  STORAGE_URL:
+    process.env.STORAGE_DRIVER === 's3'
+      ? `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`
+      : `${process.env.APP_URL}/files`
 }
 
 export { env }
