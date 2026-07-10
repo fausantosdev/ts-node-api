@@ -1,3 +1,4 @@
+import { env } from '../../config/env'
 import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 
@@ -13,7 +14,7 @@ const me = async (userId: string | number) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      avatar: user.avatar,
+      avatar: `${env.STORAGE_URL}/${user.avatar}`,
       created_at: user.created_at,
       updated_at: user.updated_at
     }
