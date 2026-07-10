@@ -67,6 +67,21 @@ const getById = async (
   }
 }
 
+const getOneWhere = async (
+  where: Partial<File>
+): Promise<File | undefined> => {
+  try {
+    const result = await connection('files')
+      .select('*')
+      .where(where)
+
+    return result[0]
+
+  } catch (error: any) {
+    throw new AppError(error)
+  }
+}
+
 const remove = async (
   where: Partial<File>
 ): Promise<number> => {
@@ -86,5 +101,6 @@ export const fileRepository = {
   create,
   read,
   getById,
+  getOneWhere,
   remove
 }
