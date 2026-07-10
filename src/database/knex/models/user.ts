@@ -4,6 +4,7 @@ class User {
   email: string
   password_hash: string
   role: string
+  avatar: string
   password_reset_token: string | null
   password_reset_expires: Date | null
   created_at: Date

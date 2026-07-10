@@ -39,4 +39,11 @@ userRoutes.delete(
   userController.deleteById
 )
 
+userRoutes.patch(
+  '/update-avatar',
+  ensureAuthenticated,
+  userController.updateAvatarValidation,
+  userController.updateAvatar
+)
+
 export { userRoutes }
