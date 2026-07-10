@@ -1,20 +1,21 @@
+import { File } from '../../database/knex/models'
 import { fileRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
 import { StorageProviderFactory } from '../../shared/services/storage'
 
-const deleteFile = async (id: number): Promise<number | Error> => {
+const deleteFile = async (where: Partial<File>): Promise<number | Error> => {
   const storage = StorageProviderFactory()
 
   try {
-    const fileExists = await fileRepository.getById(id)
+    const fileExists = await fileRepository.getOneWhere(where)
 
     if(!fileExists){
       throw new AppError('Arquivo não encontrado', 404)
     }
 
-    const fileRemoved = await fileRepository.remove({ id })
+    await storage.deleteFile(fileExists.name)
 
-    if (fileRemoved) await storage.deleteFile(fileExists.name)
+    const fileRemoved = await fileRepository.remove(where)
 
     return fileRemoved
 
