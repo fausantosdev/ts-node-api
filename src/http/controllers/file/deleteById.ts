@@ -7,7 +7,7 @@ import { responseHelper } from '../../../shared/helpers/response-helper'
 import { deleteFile } from '../../../use-cases/file'
 
 type ParamsTypes = {
-  id: number
+  id?: number
 }
 
 const deleteByIdValidation = validation((getSchema) => ({
@@ -31,7 +31,7 @@ async function deleteById(
   const { id } = request.params
 
   try {
-    const result = await deleteFile({ id })
+    const result = await deleteFile({ id: id! })
 
     return response
       .status(StatusCodes.OK)
