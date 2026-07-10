@@ -3,7 +3,7 @@ import { AppError } from '../../shared/utils/errors/app-error'
 
 const me = async (userId: string | number) => {
   try {
-    const user = await userRepository.getById(userId)
+    const user = await userRepository.getById(Number(userId))
 
     if(!user){
       throw new AppError('Falha na autenticação, verifique suas credenciais', 401)

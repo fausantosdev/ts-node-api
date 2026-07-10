@@ -12,7 +12,7 @@ type UpdateUserAvatarInput = {
 
 const updateUserAvatar = async ({ userId, avatar }: UpdateUserAvatarInput): Promise<number | Error> => {
   try {
-    const userExists = await userRepository.getById(userId)
+    const userExists = await userRepository.getById(Number(userId))
 
     if (!userExists) {
       throw new AppError('Usuário não encontrado', 404)
