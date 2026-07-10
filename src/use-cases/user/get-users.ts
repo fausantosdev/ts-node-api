@@ -1,3 +1,4 @@
+import { env } from '../../config/env'
 import { User } from '../../database/knex/models'
 import { userRepository } from '../../database/repositories'
 import { AppError } from '../../shared/utils/errors/app-error'
@@ -24,10 +25,15 @@ const getUsers = async (queryParams?: GetUserInput): Promise<User | User[] | Err
 
     if (queryParams?.filters?.id) {
       result = await userRepository.getById(queryParams.filters.id)
+
       if (!result) {
         throw new AppError('Usuário não encontrado', 404)
       }
-      return result
+
+      return {
+        ...result,
+        avatar: result.avatar && `${env.STORAGE_URL}/${result.avatar}`
+      }
     }
 
     if (queryParams?.filters?.name) {
@@ -38,10 +44,12 @@ const getUsers = async (queryParams?: GetUserInput): Promise<User | User[] | Err
           page: queryParams.pagination?.page,
         },
       })
+
       if (!result || result.length === 0) {
         throw new AppError('Usuário não encontrado', 404)
       }
-      return result
+
+      return result.map(user => ({ ...user, avatar: user.avatar && `${env.STORAGE_URL}/${user.avatar}` }))
     }
 
     if (queryParams?.filters?.email) {
@@ -49,7 +57,11 @@ const getUsers = async (queryParams?: GetUserInput): Promise<User | User[] | Err
       if (!result) {
         throw new AppError('Usuário não encontrado', 404)
       }
-      return result
+
+      return {
+        ...result,
+        avatar: result.avatar && `${env.STORAGE_URL}/${result.avatar}`
+      }
     }
 
     // se nenhum filtro foi informado → retorna todos
@@ -58,7 +70,7 @@ const getUsers = async (queryParams?: GetUserInput): Promise<User | User[] | Err
       limit: queryParams?.pagination?.limit
     })
 
-    return result
+    return result.map(user => ({ ...user, avatar: user.avatar && `${env.STORAGE_URL}/${user.avatar}` }))
 
   } catch (error: any) {
     throw new AppError(error.message, error.statusCode ?? 500)
