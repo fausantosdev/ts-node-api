@@ -108,8 +108,7 @@ const update = async ({
     const updateData: any = { ...data }
 
     if (data.password_hash) updateData.password_hash = data.password_hash
-console.log(where)
-console.log(updateData)
+
     const [result] = await connection('users')
       .update(updateData)
       .where(where)

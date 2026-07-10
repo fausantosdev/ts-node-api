@@ -3,6 +3,7 @@ import { getAll, getAllQueryValidation } from './getAll'
 import { getById, getByIdParamsValidation } from './getById'
 import { update, updateValidation } from './update'
 import { deleteById, deleteByIdValidation } from './deleteById'
+import { updateAvatar, updateAvatarValidation } from './updateAvatar'
 
 const userController = {
   create,
@@ -14,7 +15,9 @@ const userController = {
   update,
   updateValidation,
   deleteById,
-  deleteByIdValidation
+  deleteByIdValidation,
+  updateAvatar,
+  updateAvatarValidation
 }
 
 export { userController }
